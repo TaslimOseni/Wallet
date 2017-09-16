@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:checkableBehavior="single"
+           android:menuCategory="container">
+        <item
+            android:title="Add"
+            android:icon="@android:drawable/ic_input_add"
+            android:id="@+id/addWally" />
+        </group>
+
+
+    <group android:checkableBehavior="single"
+           android:menuCategory="container">
+        <item
+            android:id="@+id/nav_all"
+            android:title="All" />
+        <item
+            android:id="@+id/nav_credit"
+            android:title="Credits" />
+        <item
+            android:id="@+id/nav_debit"
+            android:title="Debts" />
+    </group>
+
+</menu>
