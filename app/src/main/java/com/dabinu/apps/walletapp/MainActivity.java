@@ -1,10 +1,8 @@
 package com.dabinu.apps.walletapp;
 
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -20,7 +18,6 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,16 +28,18 @@ import com.dabinu.apps.DebtList;
 import com.dabinu.apps.NewField;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import static com.dabinu.apps.walletapp.R.id.nav_view;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable{
 
 
-    Intent goToCreditSide, gotoDebitSide, createNewField;
+    Intent goToCreditSide, gotoDebitSide, createNewField, stayHere;
     ArrayAdapter<String> arrayAdapter;
     RelativeLayout relativeLayoutMain;
     TextView nCreditM, nDebitM;
@@ -57,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         overridePendingTransition(0, 0);
 
+        final AlertDialog.Builder alBuilder = new AlertDialog.Builder(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         goToCreditSide = new Intent(getApplicationContext(), Credits.class);
         gotoDebitSide = new Intent(getApplicationContext(), DebtList.class);
         createNewField = new Intent(getApplicationContext(), NewField.class);
+        stayHere = new Intent(getApplicationContext(), MainActivity.class);
 
         relativeLayoutMain = (RelativeLayout) findViewById(R.id.motherViewMain);
 
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         File[] listOf = getFilesDir().listFiles();
 
-        ArrayList<String> allTheBloodyTransactionsGuy = new ArrayList<String>();
+        final ArrayList<String> allTheBloodyTransactionsGuy = new ArrayList<String>();
         int debtCounter = 0;
         int credCounter = 0;
 
@@ -99,13 +100,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FileInputStream fis = openFileInput(listOf[i].getName());
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 SingleWallet object = (SingleWallet) ois.readObject();
-                if(object.getIsDebt().equals("To pay ")){
+                if(object.getReturnStatement().equals("To pay ")){
                     debtCounter++;
                 }
-                else if(object.getIsDebt().equals("To collect ")){
+                else if(object.getReturnStatement().equals("To collect ")){
                     credCounter++;
                 }
-                allTheBloodyTransactionsGuy.add(object.getIsDebt().concat("#").concat(object.getAmount()).concat(object.getToOrFrom()).concat(object.getNameOfWallet()));
+                allTheBloodyTransactionsGuy.add(object.getReturnStatement().concat("#").concat(object.getAmount()).concat(object.getPreposition()).concat(object.getNameOfWallet()));
             }
             catch (Exception e) {
                 continue;
@@ -140,18 +141,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.setLongClickable(true);
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                    new AlertDialog.Builder(getApplicationContext())
-//                            .setMessage("Delete?")
-//                            .setCancelable(false)
-//                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    Toast.makeText(getApplicationContext(), "ADF", Toast.LENGTH_LONG).show();
-//                                }
-//                            })
-//                            .setNegativeButton("No", null)
-//                            .show();
-                    Toast.makeText(getApplicationContext(), "hggh", Toast.LENGTH_LONG).show();
+                public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
+                            alBuilder.setMessage("Delete?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    String[] tester = {};
+                                    String[] ohho = allTheBloodyTransactionsGuy.toArray(tester);
+                                    deleteWallet(ohho[position]);
+
+                                }
+                            })
+                            .setNegativeButton("No", null)
+                                    .show();
                     return false;
                 }
             });
@@ -224,6 +226,93 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+
+    public void deleteWallet(String displayMessage){
+        String name = "";
+        String amount = "";
+        boolean isDebt = false;
+        int startFromHereNextTime;
+
+        char[] brakata = displayMessage.toCharArray();
+
+        if(brakata[3] == 'c'){
+            isDebt = false;
+        }
+        else if(brakata[3] == 'p'){
+            isDebt = true;
+        }
+
+
+        if(isDebt){
+            ArrayList<String> amountArray = new ArrayList<String>();
+            ArrayList<String> nameArray = new ArrayList<String>();
+
+            for(int i = 8; i < brakata.length; i++){
+                amountArray.add(Character.toString(brakata[i]));
+                if(brakata[i + 1] == ' '){
+                    startFromHereNextTime = i + 5;
+                    for(int j = startFromHereNextTime; j < brakata.length; j++){
+                        nameArray.add(Character.toString(brakata[j]));
+                    }
+                    break;
+                }
+            }
+            for(String a: amountArray){
+                amount += (a);
+            }
+            for(String a: nameArray){
+                name += (a);
+            }
+
+        }
+
+        else{
+            ArrayList<String> amountArray = new ArrayList<String>();
+            ArrayList<String> nameArray = new ArrayList<String>();
+            for(int i = 12; i < brakata.length; i++){
+                amountArray.add(Character.toString(brakata[i]));
+                if(brakata[i + 1] == ' '){
+                    startFromHereNextTime = i + 7;
+                    for(int j = startFromHereNextTime; j < brakata.length; j++){
+                        nameArray.add(Character.toString(brakata[j]));
+                    }
+                    break;
+                }
+            }
+            for(String a: amountArray){
+                amount += (a);
+            }
+            for(String a: nameArray){
+                name += (a);
+            }
+        }
+
+        File[] listOf = getFilesDir().listFiles();
+
+        for(int i = 0; i < listOf.length; i++) {
+            try {
+                FileInputStream fis = openFileInput(listOf[i].getName());
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                SingleWallet theObjectWeWant = (SingleWallet) ois.readObject();
+
+                if(theObjectWeWant.getNameOfWallet().equals(name)){
+                    if(theObjectWeWant.getAmount().equals(amount)){
+                        if(theObjectWeWant.getIsDebt() == isDebt){
+                            listOf[i].delete();
+                            Toast.makeText(getApplicationContext(), "Successful!", Toast.LENGTH_LONG).show();
+                            startActivity(stayHere);
+                        }
+                    }
+                }
+            }
+            catch (Exception e){
+                continue;
+            }
+        }
+
     }
 
 }
