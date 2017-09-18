@@ -29,7 +29,7 @@
         android:elevation="12dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="#f9f7f7"
+        app:backgroundTint="#105a3a"
         app:srcCompat="@android:drawable/ic_input_add" />
 
 </android.support.design.widget.CoordinatorLayout>

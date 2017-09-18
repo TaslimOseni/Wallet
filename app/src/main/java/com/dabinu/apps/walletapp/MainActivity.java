@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.dabinu.apps.Credits;
 import com.dabinu.apps.DebtList;
 import com.dabinu.apps.NewField;
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ArrayAdapter<String> arrayAdapter;
     RelativeLayout relativeLayoutMain;
     TextView nCreditM, nDebitM;
-    ImageView del;
 
 
     @Override
@@ -82,11 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         relativeLayoutMain = (RelativeLayout) findViewById(R.id.motherViewMain);
 
         View headerView = navigationView.getHeaderView(0);
-        View tbb = toolbar.getChildAt(1);
 
         nDebitM = (TextView) headerView.findViewById(R.id.numberOfDebts);
         nCreditM = (TextView) headerView.findViewById(R.id.numberOfCredits);
-        del = (ImageView) tbb.findViewById(R.id.del);
 
 
         File[] listOf = getFilesDir().listFiles();
@@ -142,11 +141,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    view.setBackgroundColor(Color.YELLOW);
-                    del.setVisibility(View.VISIBLE);
-                    return true;
+//                    new AlertDialog.Builder(getApplicationContext())
+//                            .setMessage("Delete?")
+//                            .setCancelable(false)
+//                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    Toast.makeText(getApplicationContext(), "ADF", Toast.LENGTH_LONG).show();
+//                                }
+//                            })
+//                            .setNegativeButton("No", null)
+//                            .show();
+                    Toast.makeText(getApplicationContext(), "hggh", Toast.LENGTH_LONG).show();
+                    return false;
                 }
             });
+
             //Todo: editing cell size, text colour and text size on listview
         }
 
@@ -193,6 +202,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
