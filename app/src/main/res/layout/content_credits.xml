@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.dabinu.apps.Credits"
+    tools:context="com.dabinu.apps.CreditActivity"
     android:background="#f8e3ad"
     android:id="@+id/motherViewCredit"
     tools:showIn="@layout/app_bar_credits">

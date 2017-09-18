@@ -18,25 +18,23 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.dabinu.apps.Credits;
-import com.dabinu.apps.DebtList;
+import com.dabinu.apps.CreditActivity;
+import com.dabinu.apps.DebtActivity;
 import com.dabinu.apps.NewField;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import static com.dabinu.apps.walletapp.R.id.nav_view;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable{
+public class GeneralActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable{
 
 
     Intent goToCreditSide, gotoDebitSide, createNewField, stayHere;
@@ -76,10 +74,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        goToCreditSide = new Intent(getApplicationContext(), Credits.class);
-        gotoDebitSide = new Intent(getApplicationContext(), DebtList.class);
+        goToCreditSide = new Intent(getApplicationContext(), CreditActivity.class);
+        gotoDebitSide = new Intent(getApplicationContext(), DebtActivity.class);
         createNewField = new Intent(getApplicationContext(), NewField.class);
-        stayHere = new Intent(getApplicationContext(), MainActivity.class);
+        stayHere = new Intent(getApplicationContext(), GeneralActivity.class);
 
         relativeLayoutMain = (RelativeLayout) findViewById(R.id.motherViewMain);
 
@@ -134,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.setPadding(50, 30, 50, 30);
             listView.setMinimumHeight(10);
             listView.setVerticalScrollBarEnabled(false);
-            //todo: delete function for each cell
             relativeLayoutMain.addView(listView);
             arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, allTheBloodyTransactionsGuy);
             listView.setAdapter(arrayAdapter);
@@ -158,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
 
-            //Todo: editing cell size, text colour and text size on listview
+
         }
 
     }
@@ -187,26 +184,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
 
-        //noinspection SimplifiableIfStatement
-
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -227,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
     public void deleteWallet(String displayMessage){
@@ -302,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if(theObjectWeWant.getAmount().equals(amount)){
                         if(theObjectWeWant.getIsDebt() == isDebt){
                             listOf[i].delete();
-                            Toast.makeText(getApplicationContext(), "Successful!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Deleted!", Toast.LENGTH_LONG).show();
                             startActivity(stayHere);
                         }
                     }

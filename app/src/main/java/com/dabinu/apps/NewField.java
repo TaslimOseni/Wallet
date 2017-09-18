@@ -3,32 +3,30 @@ package com.dabinu.apps;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.inputmethodservice.Keyboard;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
-import com.dabinu.apps.walletapp.MainActivity;
+import com.dabinu.apps.walletapp.GeneralActivity;
 import com.dabinu.apps.walletapp.R;
 import com.dabinu.apps.walletapp.SingleWallet;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+
 public class NewField extends AppCompatActivity implements Serializable{
+
 
     RadioButton isDebt, isCredit;
     EditText name, amount;
     Button save, cancel;
-    ArrayAdapter<CharSequence> mnt, dys;
     boolean areWeOwing;
     LinearLayout newn;
 
@@ -55,7 +53,7 @@ public class NewField extends AppCompatActivity implements Serializable{
         setContentView(R.layout.activity_new_field);
 
 
-        final Intent backToMomma = new Intent(this, MainActivity.class);;
+        final Intent backToMomma = new Intent(this, GeneralActivity.class);;
 
 
 

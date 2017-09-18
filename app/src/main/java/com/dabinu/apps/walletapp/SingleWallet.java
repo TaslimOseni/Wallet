@@ -4,17 +4,19 @@ import java.io.Serializable;
 
 public class SingleWallet implements Serializable{
 
-    String name, amount, month, day;
-    String isDebt;
+    String name, amount, returnStatement;
+    boolean isDebt;
 
     public SingleWallet(String name, String amount, boolean isThisADebt){
         this.name = name;
         this.amount = amount;
         if(isThisADebt){
-            isDebt = "To pay ";
+            returnStatement = "To pay ";
+            isDebt = true;
         }
         else{
-            isDebt = "To collect ";
+            returnStatement = "To collect ";
+            isDebt = false;
         }
     }
 
@@ -26,12 +28,12 @@ public class SingleWallet implements Serializable{
         return amount;
     }
 
-    public String getIsDebt(){
-        return isDebt;
+    public String getReturnStatement(){
+        return returnStatement;
     }
 
-    public String getToOrFrom(){
-        if(isDebt.equals("To pay ")){
+    public String getPreposition(){
+        if(returnStatement.equals("To pay ")){
             return " to ";
         }
         else{
@@ -39,5 +41,7 @@ public class SingleWallet implements Serializable{
         }
     }
 
-
+    public boolean getIsDebt(){
+        return isDebt;
+    }
 }
