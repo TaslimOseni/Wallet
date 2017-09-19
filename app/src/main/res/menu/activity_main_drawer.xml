@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    
-    <group android:checkableBehavior="single"
-           android:menuCategory="container">
+<item android:title="Tabs" >
+
+    <menu>
+
         <item
             android:id="@+id/nav_all"
-            android:title="All" />
+            android:title="All"
+            android:icon="@drawable/both"/>
         <item
             android:id="@+id/nav_credit"
-            android:title="Credits" />
+            android:title="Credits"
+            android:icon="@drawable/happyface"/>
         <item
             android:id="@+id/nav_debit"
-            android:title="Debts" />
-    </group>
+            android:title="Debts"
+            android:icon="@drawable/sadface"/>
+
+    </menu>
+</item>
 
 </menu>
