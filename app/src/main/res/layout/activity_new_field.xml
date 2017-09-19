@@ -27,6 +27,8 @@
             android:textColor="#000"
             android:textSize="20sp" />
 
+        <!--todo: remember every name inputted.-->
+
     </android.support.design.widget.TextInputLayout>
 
 

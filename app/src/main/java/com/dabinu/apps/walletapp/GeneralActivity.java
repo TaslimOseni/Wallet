@@ -235,8 +235,8 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
 
         if(isDebt){
-            ArrayList<String> amountArray = new ArrayList<String>();
-            ArrayList<String> nameArray = new ArrayList<String>();
+            ArrayList<String> amountArray = new ArrayList<>();
+            ArrayList<String> nameArray = new ArrayList<>();
 
             for(int i = 8; i < brakata.length; i++){
                 amountArray.add(Character.toString(brakata[i]));
