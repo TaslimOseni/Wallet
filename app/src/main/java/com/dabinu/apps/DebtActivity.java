@@ -87,45 +87,40 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
 
         File[] listOf = getFilesDir().listFiles();
 
-        final ArrayList<String> allTheBloodyTransactionsGuy = new ArrayList<String>();
+        final ArrayList<String> allTheBloodyTransactionsGuy = new ArrayList<>();
         int debtCounter = 0;
         int credCounter = 0;
 
-        for (int i = 0; i < listOf.length; i++) {
+        for(File i: listOf) {
             try {
-                FileInputStream fis = openFileInput(listOf[i].getName());
+                FileInputStream fis = openFileInput(i.getName());
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 SingleWallet object = (SingleWallet) ois.readObject();
                 if(object.getReturnStatement().equals("To pay ")){
                     debtCounter++;
+                    allTheBloodyTransactionsGuy.add(object.getReturnStatement().concat("#").concat(object.getAmount()).concat(object.getPreposition()).concat(object.getNameOfWallet()));
                 }
                 else if(object.getReturnStatement().equals("To collect ")){
                     credCounter++;
                 }
-                if(object.getReturnStatement().equals("To collect ")){
-                    continue;
-                }
-                else{
-                    allTheBloodyTransactionsGuy.add(object.getReturnStatement().concat("#").concat(object.getAmount()).concat(object.getPreposition()).concat(object.getNameOfWallet()));
-                }
             }
-            catch (Exception e) {
-                continue;
+            catch (Exception e){
+                //nothing
             }
         }
 
-        nDebitM.setText(Integer.toString(debtCounter));
-        nCreditM.setText(Integer.toString(credCounter));
+        nDebitM.setText(String.format("%s", Integer.toString(debtCounter)));
+        nCreditM.setText(String.format("%s", Integer.toString(credCounter)));
 
 
         if(allTheBloodyTransactionsGuy.isEmpty()){
             TextView nothingSir = new TextView(this);
             nothingSir.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            nothingSir.setText("Nothing to display");
+            nothingSir.setText(R.string.nothing);
             nothingSir.setTextSize(30);
             nothingSir.setAllCaps(true);
             nothingSir.setPadding(80, 700, 0, 0);
-            nothingSir.setAlpha(0.7f);
+            nothingSir.setAlpha(0.3f);
             relativeLayoutDebt.addView(nothingSir);
         }
         else{
@@ -133,11 +128,11 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
             listView.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             listView.setPadding(50, 30, 50, 30);
             relativeLayoutDebt.addView(listView);
-            arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, allTheBloodyTransactionsGuy);
+            arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allTheBloodyTransactionsGuy);
             listView.setAdapter(arrayAdapter);
-            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                     alBuilder.setMessage("Delete?")
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -150,7 +145,6 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
                             })
                             .setNegativeButton("No", null)
                             .show();
-                    return false;
                 }
             });
         }
@@ -166,7 +160,7 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
         } else {
             new AlertDialog.Builder(this)
                     .setMessage("Are you sure you want to exit?")
-                    .setCancelable(false)
+                    .setCancelable(true)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
@@ -181,28 +175,23 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+    public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.debt_list, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+    public boolean onOptionsItemSelected(MenuItem item){
+
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+    public boolean onNavigationItemSelected(MenuItem item){
         int id = item.getItemId();
 
         if (id == R.id.nav_credit){
@@ -235,8 +224,8 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-            ArrayList<String> amountArray = new ArrayList<String>();
-            ArrayList<String> nameArray = new ArrayList<String>();
+            ArrayList<String> amountArray = new ArrayList<>();
+            ArrayList<String> nameArray = new ArrayList<>();
 
             for(int i = 8; i < brakata.length; i++){
                 amountArray.add(Character.toString(brakata[i]));
@@ -259,16 +248,16 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
 
         File[] listOf = getFilesDir().listFiles();
 
-        for(int i = 0; i < listOf.length; i++) {
+        for(File i: listOf) {
             try {
-                FileInputStream fis = openFileInput(listOf[i].getName());
+                FileInputStream fis = openFileInput(i.getName());
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 SingleWallet theObjectWeWant = (SingleWallet) ois.readObject();
 
                 if(theObjectWeWant.getNameOfWallet().equals(name)){
                     if(theObjectWeWant.getAmount().equals(amount)){
                         if(theObjectWeWant.getIsDebt() == isDebt){
-                            listOf[i].delete();
+                            i.delete();
                             Toast.makeText(getApplicationContext(), "Deleted!", Toast.LENGTH_LONG).show();
                             startActivity(stayHereDebt);
                         }
@@ -276,7 +265,7 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             catch (Exception e){
-                continue;
+                //nothing
             }
         }
 
