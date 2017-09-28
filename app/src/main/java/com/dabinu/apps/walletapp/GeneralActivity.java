@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.view.ActionMode;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,9 +17,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     ArrayAdapter<String> arrayAdapter;
     RelativeLayout relativeLayoutMain;
     TextView nCreditM, nDebitM;
+    View del;
 
 
     @Override
@@ -52,7 +54,10 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         setSupportActionBar(toolbar);
 
 
+        del = (View) findViewById(R.id.del);
+
         overridePendingTransition(0, 0);
+
 
         final AlertDialog.Builder alBuilder = new AlertDialog.Builder(this);
 
@@ -131,15 +136,43 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
             listView.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             listView.setPadding(50, 30, 50, 30);
             listView.setMinimumHeight(10);
+            listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+                @Override
+                public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+                }
+
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    return false;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return false;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode){
+
+                }
+            });
+
+
             listView.setVerticalScrollBarEnabled(false);
             relativeLayoutMain.addView(listView);
-            arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, allTheBloodyTransactionsGuy);
+            arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allTheBloodyTransactionsGuy);
             listView.setAdapter(arrayAdapter);
             listView.setLongClickable(true);
-            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
-                            alBuilder.setMessage("Delete?")
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                    alBuilder.setMessage("Delete?")
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
@@ -150,8 +183,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                                 }
                             })
                             .setNegativeButton("No", null)
-                                    .show();
-                    return false;
+                            .show();
                 }
             });
 
@@ -192,6 +224,9 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
+        if(id == R.id.del){
+
+        }
 
 
         return super.onOptionsItemSelected(item);
@@ -303,4 +338,4 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
     }
 
-}
+            }
