@@ -161,7 +161,7 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
             new AlertDialog.Builder(this)
                     .setMessage("Are you sure you want to exit?")
                     .setCancelable(true)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int id) {
                             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
                             homeIntent.addCategory( Intent.CATEGORY_HOME );
