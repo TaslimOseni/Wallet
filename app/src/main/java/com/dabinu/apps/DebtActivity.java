@@ -22,7 +22,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.dabinu.apps.walletapp.GeneralActivity;
 import com.dabinu.apps.walletapp.R;
 import com.dabinu.apps.walletapp.SingleWallet;
@@ -40,6 +39,7 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
     ArrayAdapter<String> arrayAdapter;
     RelativeLayout relativeLayoutDebt;
     TextView nDebitM, nCreditM;
+
 
 
     @Override
@@ -157,7 +157,8 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else{
             new AlertDialog.Builder(this)
                     .setMessage("Are you sure you want to exit?")
                     .setCancelable(true)
