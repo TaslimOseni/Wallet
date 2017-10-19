@@ -27,6 +27,9 @@
             android:label="@string/title_activity_debt_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.dabinu.apps.NewField"></activity>
+
+        <service android:name=".TheDailyBread"
+            android:exported="false"/>
     </application>
 
 </manifest>
