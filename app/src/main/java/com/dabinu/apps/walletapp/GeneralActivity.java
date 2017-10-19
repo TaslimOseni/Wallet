@@ -44,6 +44,10 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     TextView nCreditM, nDebitM;
 
 
+
+    //TODO: Add notification plan!!!!!!!!!!!!!!!
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
