@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ffffff"
+    android:background="#e8fd93"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     tools:context="com.dabinu.apps.NewField">
@@ -22,8 +22,11 @@
             android:layout_height="match_parent"
             android:hint="Name"
             android:inputType="text|textPersonName"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
             android:shadowColor="@color/colorPrimary"
             android:textAlignment="center"
+            android:background="#ffffff"
             android:textColor="#000"
             android:textSize="20sp" />
 
@@ -44,6 +47,9 @@
             android:layout_height="match_parent"
             android:hint="Amount"
             android:inputType="number|numberDecimal"
+            android:background="#ffffff"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
             android:shadowColor="@color/colorPrimary"
             android:textAlignment="center"
             android:textColor="#000"

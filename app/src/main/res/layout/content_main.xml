@@ -5,7 +5,7 @@
     android:id="@+id/motherViewMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#e8fd93"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.dabinu.apps.walletapp.GeneralActivity"
     tools:showIn="@layout/app_bar_main">

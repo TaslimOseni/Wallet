@@ -1,6 +1,8 @@
 package com.dabinu.apps.walletapp;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +34,10 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import static com.dabinu.apps.walletapp.R.id.nav_view;
+
 
 
 public class GeneralActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable{
@@ -45,9 +50,6 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
 
 
-    //TODO: Add notification plan!!!!!!!!!!!!!!!
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,28 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
 
         overridePendingTransition(0, 0);
+
+
+
+        Intent myIntent = new Intent(this, AlarmManager.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(GeneralActivity.this, 0, myIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar toBeFired = Calendar.getInstance();
+        Calendar nownow = Calendar.getInstance();
+
+        toBeFired.set(Calendar.HOUR_OF_DAY, 9);
+        toBeFired.set(Calendar.MINUTE, 1);
+        toBeFired.set(Calendar.SECOND, 0);
+
+        if(toBeFired.compareTo(nownow) < 0) {
+            toBeFired.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        Long intendedTime = toBeFired.getTimeInMillis();
+        alarmManager.setRepeating(AlarmManager.RTC, intendedTime , AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
 
 
         final AlertDialog.Builder alBuilder = new AlertDialog.Builder(this);
@@ -197,9 +221,10 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else{
             new AlertDialog.Builder(this)
                     .setMessage("Are you sure you want to exit?")
                     .setCancelable(false)
