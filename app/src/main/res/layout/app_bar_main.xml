@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dabinu.apps.walletapp.GeneralActivity">
+    tools:context="com.dabinu.apps.wallets.GeneralActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -16,8 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#105a3a"
-            android:title="General"
-            android:titleTextColor="#000"
+            android:title="@string/all"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -30,8 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:rippleColor="#fff"
         android:elevation="12dp"
+        app:rippleColor="#ffffff"
         app:backgroundTint="#105a3a"
         app:srcCompat="@android:drawable/ic_input_add" />
 

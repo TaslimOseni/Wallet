@@ -1,11 +1,11 @@
-package com.dabinu.apps.walletapp;
+package com.dabinu.apps.models;
 
 import java.io.Serializable;
 
 public class SingleWallet implements Serializable{
 
-    String name, amount, returnStatement;
-    boolean isDebt;
+    private String name, amount, returnStatement;
+    private boolean isDebt;
 
     public SingleWallet(String name, String amount, boolean isThisADebt){
         this.name = name;
@@ -44,4 +44,5 @@ public class SingleWallet implements Serializable{
     public boolean getIsDebt(){
         return isDebt;
     }
+
 }

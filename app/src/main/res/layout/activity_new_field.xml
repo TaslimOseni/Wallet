@@ -1,115 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#e8fd93"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context="com.dabinu.apps.NewField">
+    tools:context="com.dabinu.apps.activities.NewField">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="250dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="30dp">
-
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Name"
-            android:inputType="text|textPersonName"
-            android:paddingStart="10dp"
-            android:paddingEnd="0dp"
-            android:shadowColor="@color/colorPrimary"
-            android:textAlignment="center"
-            android:background="#ffffff"
-            android:textColor="#000"
-            android:textSize="20sp" />
-
-        <!--todo: remember every name inputted.-->
-
-    </android.support.design.widget.TextInputLayout>
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="250dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="30dp">
-
-        <EditText
-            android:id="@+id/amount"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Amount"
-            android:inputType="number|numberDecimal"
-            android:background="#ffffff"
-            android:paddingStart="10dp"
-            android:paddingEnd="0dp"
-            android:shadowColor="@color/colorPrimary"
-            android:textAlignment="center"
-            android:textColor="#000"
-            android:textSize="20sp" />
-    </android.support.design.widget.TextInputLayout>
-
-
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="80dp"
-        android:background="#f5f8ee"
-        android:id="@+id/dreamer"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/background"
+        android:src="@drawable/newbackground"
+        android:scaleType="fitXY"/>
 
-        <RadioButton
-            android:id="@+id/isDebt"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="60dp"
-            android:text="To pay"
-            android:textColor="#607f04"
-            android:textSize="20sp"
-            android:textStyle="italic" />
 
-        <RadioButton
-            android:id="@+id/isCredit"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:text="To collect"
-            android:textColor="#607f04"
-            android:textSize="20sp"
-            android:textStyle="italic" />
-    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginTop="120dp"
-        android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#012b01">
 
-        <Button
-            android:id="@+id/save"
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/roundbutt"
-            android:text="Save"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
+                <ImageButton
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/back_button"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="15dp"
+                    android:background="#012b01"
+                    android:src="@drawable/back" />
 
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="90dp"
-            android:background="@drawable/roundbutt"
-            android:text="Cancel"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
-    </LinearLayout>
-</LinearLayout>
+            </RelativeLayout>
+
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="200dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_below="@+id/header"
+                android:background="#f0f8b8"
+                android:hint="@string/name"
+                android:inputType="text|textPersonName"
+                android:paddingEnd="0dp"
+                android:paddingStart="20dp"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="italic" />
+
+            <EditText
+                android:id="@+id/amount"
+                android:layout_width="200dp"
+                android:layout_height="45dp"
+                android:hint="@string/amount"
+                android:inputType="number|numberDecimal"
+                android:background="#f0f8b8"
+                android:layout_marginStart="10dp"
+                android:paddingStart="20dp"
+                android:layout_below="@+id/name"
+                android:paddingEnd="0dp"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                android:layout_marginTop="30dp"/>
+
+
+            <LinearLayout
+                android:id="@+id/dreamer"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/amount"
+                android:layout_marginTop="80dp"
+                android:background="#feead2"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/isDebt"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="55dp"
+                    android:text="@string/pay"
+                    android:textColor="#607f04"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+
+                <RadioButton
+                    android:id="@+id/isCredit"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/collect"
+                    android:textColor="#607f04"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/save"
+                android:id="@+id/save"
+                android:layout_marginBottom="43dp"
+                android:layout_marginEnd="29dp" />
+        </RelativeLayout>
+</FrameLayout>

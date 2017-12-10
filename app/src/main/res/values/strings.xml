@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Wallet</string>
     <string name="action_add">Add</string>
     <string name="action_aboutUs">About us</string>
@@ -11,6 +12,19 @@
     <string name="title_activity_credit_list">Credits</string>
     <string name="title_activity_debt_list">Debts</string>
 
-    <string name="nothing">NOTHING TO DISPLAY</string>
+    <string name="collect">To collect</string>
+    <string name="pay">To pay</string>
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
+    <string name="zero">0</string>
+    <string name="credits">Credits</string>
+    <string name="debts">Debts</string>
+    <string name="all">All wallets</string>
+
+    <string name="nothing">Nothing to display</string>
+
+    <string name="back_button">back_button</string>
+    <string name="background">background</string>
+
 </resources>
 

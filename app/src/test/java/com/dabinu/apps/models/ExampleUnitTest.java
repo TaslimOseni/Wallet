@@ -1,4 +1,4 @@
-package com.dabinu.apps.walletapp;
+package com.dabinu.apps.models;
 
 import org.junit.Test;
 

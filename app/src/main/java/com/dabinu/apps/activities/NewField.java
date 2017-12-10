@@ -1,21 +1,23 @@
-package com.dabinu.apps;
+package com.dabinu.apps.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
-import com.dabinu.apps.walletapp.GeneralActivity;
-import com.dabinu.apps.walletapp.R;
-import com.dabinu.apps.walletapp.SingleWallet;
+import com.dabinu.apps.wallets.GeneralActivity;
+import com.dabinu.apps.models.R;
+import com.dabinu.apps.models.SingleWallet;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -26,7 +28,8 @@ public class NewField extends AppCompatActivity implements Serializable{
 
     RadioButton isDebt, isCredit;
     EditText name, amount;
-    Button save, cancel;
+    FloatingActionButton save;
+    ImageButton cancel;
     boolean areWeOwing;
     LinearLayout newn;
 
@@ -52,8 +55,9 @@ public class NewField extends AppCompatActivity implements Serializable{
 
         setContentView(R.layout.activity_new_field);
 
-
-        final Intent backToMomma = new Intent(this, GeneralActivity.class);;
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        final Intent backToMomma = new Intent(this, GeneralActivity.class);
 
 
 
@@ -61,8 +65,8 @@ public class NewField extends AppCompatActivity implements Serializable{
         isCredit = (RadioButton) findViewById(R.id.isCredit);
         name = (EditText) findViewById(R.id.name);
         amount = (EditText) findViewById(R.id.amount);
-        save = (Button) findViewById(R.id.save);
-        cancel = (Button) findViewById(R.id.cancel);
+        save = (FloatingActionButton) findViewById(R.id.save);
+        cancel = (ImageButton) findViewById(R.id.cancel);
         newn = (LinearLayout) findViewById(R.id.dreamer);
 
 

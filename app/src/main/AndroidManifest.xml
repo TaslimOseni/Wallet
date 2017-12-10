@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dabinu.apps.walletapp">
+    package="com.dabinu.apps.models">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".GeneralActivity"
+            android:name="com.dabinu.apps.wallets.GeneralActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,14 +19,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dabinu.apps.CreditActivity"
+            android:name="com.dabinu.apps.wallets.CreditActivity"
             android:label="@string/title_activity_credit_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.dabinu.apps.DebtActivity"
+            android:name="com.dabinu.apps.wallets.DebtActivity"
             android:label="@string/title_activity_debt_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.dabinu.apps.NewField"></activity>
+        <activity android:name="com.dabinu.apps.activities.NewField"></activity>
 
     </application>
 
