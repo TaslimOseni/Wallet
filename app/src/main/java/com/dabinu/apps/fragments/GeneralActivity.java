@@ -64,8 +64,8 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
         Calendar alarmStartTime = Calendar.getInstance();
         Calendar now = Calendar.getInstance();
-        alarmStartTime.set(Calendar.HOUR_OF_DAY, 2);
-        alarmStartTime.set(Calendar.MINUTE, 34);
+        alarmStartTime.set(Calendar.HOUR_OF_DAY, 14);
+        alarmStartTime.set(Calendar.MINUTE, 46);
         alarmStartTime.set(Calendar.SECOND, 0);
         if(now.after(alarmStartTime)){
             alarmStartTime.add(Calendar.DATE, 1);
@@ -97,20 +97,10 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         File[] listOf = getFilesDir().listFiles();
 
         final ArrayList<String> allTheBloodyTransactionsGuy = new ArrayList<>();
-        int debtCounter = 0;
-        int credCounter = 0;
 
         for(File i: listOf){
             try{
                 SingleWallet walletObject = (SingleWallet) (new ObjectInputStream(openFileInput(i.getName()))).readObject();
-
-                if(walletObject.getReturnStatement().equals("To pay ")){
-                    debtCounter++;
-                }
-                else if(walletObject.getReturnStatement().equals("To collect ")){
-                    credCounter++;
-                }
-
                 allTheBloodyTransactionsGuy.add(walletObject.getReturnStatement().concat("#").concat(walletObject.getAmount()).concat(walletObject.getPreposition()).concat(walletObject.getNameOfWallet()));
             }
             catch(Exception e){
@@ -119,9 +109,9 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         }
 
 
-        ((TextView) headerView.findViewById(R.id.numberOfDebts)).setText(String.format("%s", Integer.toString(debtCounter)));
-        ((TextView) headerView.findViewById(R.id.numberOfCredits)).setText(String.format("%s", Integer.toString(credCounter)));
 
+        ((TextView) headerView.findViewById(R.id.numberOfDebts)).setText(String.format("%s", Integer.toString(giveDebt(getApplicationContext()))));
+        ((TextView) headerView.findViewById(R.id.numberOfCredits)).setText(String.format("%s", Integer.toString(giveCred(getApplicationContext()))));
 
 
         if(allTheBloodyTransactionsGuy.isEmpty()){
@@ -290,10 +280,50 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                 }
             }
             catch (Exception e){
-                //empty
             }
         }
 
     }
 
+    public int giveCred(Context context){
+        int credCounter = 0;
+
+        File[] listOf = context.getApplicationContext().getFilesDir().listFiles();
+        for(File i: listOf){
+            try{
+                SingleWallet walletObject = (SingleWallet) (new ObjectInputStream(context.openFileInput(i.getName()))).readObject();
+
+                if(walletObject.getReturnStatement().equals("To collect ")){
+                    credCounter++;
+                }
+
             }
+            catch(Exception e){
+                Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+        return credCounter;
+    }
+
+
+    public int giveDebt(Context context){
+        int debtCounter = 0;
+        File[] listOf = context.getApplicationContext().getFilesDir().listFiles();
+
+        for(File i: listOf){
+            try{
+                SingleWallet walletObject = (SingleWallet) (new ObjectInputStream(context.openFileInput(i.getName()))).readObject();
+
+                if(walletObject.getReturnStatement().equals("To pay ")){
+                    debtCounter++;
+                }
+            }
+            catch(Exception e){
+                Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+        return debtCounter;
+    }
+
+
+    }
