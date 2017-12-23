@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
-import com.dabinu.apps.wallets.GeneralActivity;
+import com.dabinu.apps.fragments.GeneralActivity;
 import com.dabinu.apps.models.R;
 import com.dabinu.apps.models.SingleWallet;
 import java.io.FileOutputStream;

@@ -1,12 +1,16 @@
-package com.dabinu.apps.wallets;
+package com.dabinu.apps.fragments;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,29 +25,55 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.dabinu.apps.activities.NewField;
 import com.dabinu.apps.models.R;
 import com.dabinu.apps.models.SingleWallet;
+import com.dabinu.apps.activities.NewField;
+import com.dabinu.apps.toolClasses.TheAlarmReceiverGuy;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import static com.dabinu.apps.models.R.id.nav_view;
 
 
-public class DebtActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+public class GeneralActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable{
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_debt_list);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("General");
         setSupportActionBar(toolbar);
-
-        final Context context = this;
 
         overridePendingTransition(0, 0);
 
-        (findViewById(R.id.fab)).setOnClickListener(new View.OnClickListener() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent alarmIntent = new Intent(this, TheAlarmReceiverGuy.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(GeneralActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmIntent.setData((Uri.parse("custom://"+System.currentTimeMillis())));
+        alarmManager.cancel(pendingIntent);
+
+        Calendar alarmStartTime = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
+        alarmStartTime.set(Calendar.HOUR_OF_DAY, 2);
+        alarmStartTime.set(Calendar.MINUTE, 34);
+        alarmStartTime.set(Calendar.SECOND, 0);
+        if(now.after(alarmStartTime)){
+            alarmStartTime.add(Calendar.DATE, 1);
+        }
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        (findViewById(R.id.fab)).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), NewField.class));
@@ -56,8 +86,10 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        final Context context = this;
 
         View headerView = navigationView.getHeaderView(0);
 
@@ -68,24 +100,28 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
         int debtCounter = 0;
         int credCounter = 0;
 
-        for(File i: listOf) {
+        for(File i: listOf){
             try{
-                SingleWallet object = (SingleWallet) (new ObjectInputStream(openFileInput(i.getName()))).readObject();
-                if(object.getReturnStatement().equals("To pay ")){
+                SingleWallet walletObject = (SingleWallet) (new ObjectInputStream(openFileInput(i.getName()))).readObject();
+
+                if(walletObject.getReturnStatement().equals("To pay ")){
                     debtCounter++;
-                    allTheBloodyTransactionsGuy.add(object.getReturnStatement().concat("#").concat(object.getAmount()).concat(object.getPreposition()).concat(object.getNameOfWallet()));
                 }
-                else if(object.getReturnStatement().equals("To collect ")){
+                else if(walletObject.getReturnStatement().equals("To collect ")){
                     credCounter++;
                 }
+
+                allTheBloodyTransactionsGuy.add(walletObject.getReturnStatement().concat("#").concat(walletObject.getAmount()).concat(walletObject.getPreposition()).concat(walletObject.getNameOfWallet()));
             }
-            catch (Exception e){
-                //nothing
+            catch(Exception e){
+                //Nothing
             }
         }
 
+
         ((TextView) headerView.findViewById(R.id.numberOfDebts)).setText(String.format("%s", Integer.toString(debtCounter)));
         ((TextView) headerView.findViewById(R.id.numberOfCredits)).setText(String.format("%s", Integer.toString(credCounter)));
+
 
 
         if(allTheBloodyTransactionsGuy.isEmpty()){
@@ -93,14 +129,14 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
             (findViewById(R.id.wall)).setAlpha(0.3f);
         }
         else{
-            ListView listView = (ListView) findViewById(R.id.lizzy);
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allTheBloodyTransactionsGuy);
+            ListView listView = (ListView) findViewById(R.id.lizzy);
             listView.setAdapter(arrayAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                    (new AlertDialog.Builder(context)).setMessage("Delete?")
-                            .setCancelable(false)
+                    new AlertDialog.Builder(context).setMessage("Delete?")
+                            .setCancelable(true)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     String[] tester = {};
@@ -113,22 +149,25 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
                             .show();
                 }
             });
-        }
 
+
+        }
 
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
+
         else{
             new AlertDialog.Builder(this)
                     .setMessage("Are you sure you want to exit?")
-                    .setCancelable(true)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
                             homeIntent.addCategory( Intent.CATEGORY_HOME );
@@ -142,8 +181,8 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.debt_list, menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -151,7 +190,6 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item){
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -163,8 +201,8 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(getApplicationContext(), CreditActivity.class));
         }
 
-        else if (id == R.id.nav_all){
-            startActivity(new Intent(getApplicationContext(), GeneralActivity.class));
+        else if (id == R.id.nav_debit){
+            startActivity(new Intent(getApplicationContext(), DebtActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -189,6 +227,7 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
+        if(isDebt){
             ArrayList<String> amountArray = new ArrayList<>();
             ArrayList<String> nameArray = new ArrayList<>();
 
@@ -209,28 +248,52 @@ public class DebtActivity extends AppCompatActivity implements NavigationView.On
                 name += (a);
             }
 
+        }
+
+        else{
+            ArrayList<String> amountArray = new ArrayList<>();
+            ArrayList<String> nameArray = new ArrayList<>();
+            for(int i = 12; i < brakata.length; i++){
+                amountArray.add(Character.toString(brakata[i]));
+                if(brakata[i + 1] == ' '){
+                    startFromHereNextTime = i + 7;
+                    for(int j = startFromHereNextTime; j < brakata.length; j++){
+                        nameArray.add(Character.toString(brakata[j]));
+                    }
+                    break;
+                }
+            }
+            for(String a: amountArray){
+                amount += (a);
+            }
+            for(String a: nameArray){
+                name += (a);
+            }
+        }
 
         File[] listOf = getFilesDir().listFiles();
 
         for(File i: listOf) {
-            try{
-                SingleWallet theObjectWeWant = (SingleWallet) (new ObjectInputStream(openFileInput(i.getName()))).readObject();
+            try {
+                FileInputStream fis = openFileInput(i.getName());
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                SingleWallet theObjectWeWant = (SingleWallet) ois.readObject();
 
                 if(theObjectWeWant.getNameOfWallet().equals(name)){
                     if(theObjectWeWant.getAmount().equals(amount)){
                         if(theObjectWeWant.getIsDebt() == isDebt){
                             i.delete();
                             Toast.makeText(getApplicationContext(), "Deleted!", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(), DebtActivity.class));
+                            startActivity(new Intent(this, GeneralActivity.class));
                         }
                     }
                 }
             }
             catch (Exception e){
-                //nothing
+                //empty
             }
         }
 
     }
 
-}
+            }

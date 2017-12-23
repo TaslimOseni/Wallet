@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.dabinu.apps.wallets.DebtActivity"
+    tools:context="com.dabinu.apps.fragments.DebtActivity"
     android:id="@+id/motherViewDebit"
     tools:showIn="@layout/app_bar_debt_list">
 

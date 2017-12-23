@@ -1,4 +1,5 @@
-package com.dabinu.apps.wallets;
+package com.dabinu.apps.fragments;
+
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,19 +29,19 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 
-public class CreditActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class DebtActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_credits);
+        setContentView(R.layout.activity_debt_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        overridePendingTransition(0, 0);
-
         final Context context = this;
+
+        overridePendingTransition(0, 0);
 
         (findViewById(R.id.fab)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,26 +68,24 @@ public class CreditActivity extends AppCompatActivity implements NavigationView.
         int debtCounter = 0;
         int credCounter = 0;
 
-
         for(File i: listOf) {
             try{
                 SingleWallet object = (SingleWallet) (new ObjectInputStream(openFileInput(i.getName()))).readObject();
                 if(object.getReturnStatement().equals("To pay ")){
                     debtCounter++;
+                    allTheBloodyTransactionsGuy.add(object.getReturnStatement().concat("#").concat(object.getAmount()).concat(object.getPreposition()).concat(object.getNameOfWallet()));
                 }
                 else if(object.getReturnStatement().equals("To collect ")){
                     credCounter++;
-                    allTheBloodyTransactionsGuy.add(object.getReturnStatement().concat("#").concat(object.getAmount()).concat(object.getPreposition()).concat(object.getNameOfWallet()));
                 }
             }
-            catch(Exception e){
-                    //nothing
+            catch (Exception e){
+                //nothing
             }
         }
 
         ((TextView) headerView.findViewById(R.id.numberOfDebts)).setText(String.format("%s", Integer.toString(debtCounter)));
         ((TextView) headerView.findViewById(R.id.numberOfCredits)).setText(String.format("%s", Integer.toString(credCounter)));
-
 
 
         if(allTheBloodyTransactionsGuy.isEmpty()){
@@ -115,19 +114,21 @@ public class CreditActivity extends AppCompatActivity implements NavigationView.
                 }
             });
         }
+
+
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
         else{
             new AlertDialog.Builder(this)
                     .setMessage("Are you sure you want to exit?")
                     .setCancelable(true)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int id) {
                             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
                             homeIntent.addCategory( Intent.CATEGORY_HOME );
@@ -142,7 +143,7 @@ public class CreditActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.credit_list, menu);
+        getMenuInflater().inflate(R.menu.debt_list, menu);
         return true;
     }
 
@@ -151,18 +152,20 @@ public class CreditActivity extends AppCompatActivity implements NavigationView.
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item){
         int id = item.getItemId();
-        if (id == R.id.nav_all){
+
+        if (id == R.id.nav_credit){
+            startActivity(new Intent(getApplicationContext(), CreditActivity.class));
+        }
+
+        else if (id == R.id.nav_all){
             startActivity(new Intent(getApplicationContext(), GeneralActivity.class));
         }
-
-          else if (id == R.id.nav_debit) {
-            startActivity(new Intent(getApplicationContext(), DebtActivity.class));
-        }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -186,13 +189,13 @@ public class CreditActivity extends AppCompatActivity implements NavigationView.
         }
 
 
-
             ArrayList<String> amountArray = new ArrayList<>();
             ArrayList<String> nameArray = new ArrayList<>();
-            for(int i = 12; i < brakata.length; i++){
+
+            for(int i = 8; i < brakata.length; i++){
                 amountArray.add(Character.toString(brakata[i]));
                 if(brakata[i + 1] == ' '){
-                    startFromHereNextTime = i + 7;
+                    startFromHereNextTime = i + 5;
                     for(int j = startFromHereNextTime; j < brakata.length; j++){
                         nameArray.add(Character.toString(brakata[j]));
                     }
@@ -218,7 +221,7 @@ public class CreditActivity extends AppCompatActivity implements NavigationView.
                         if(theObjectWeWant.getIsDebt() == isDebt){
                             i.delete();
                             Toast.makeText(getApplicationContext(), "Deleted!", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(), CreditActivity.class));
+                            startActivity(new Intent(getApplicationContext(), DebtActivity.class));
                         }
                     }
                 }
@@ -229,4 +232,5 @@ public class CreditActivity extends AppCompatActivity implements NavigationView.
         }
 
     }
+
 }

@@ -8,8 +8,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <receiver android:name="com.dabinu.apps.toolClasses.TheAlarmReceiverGuy"  android:enabled="true" />
+
         <activity
-            android:name="com.dabinu.apps.wallets.GeneralActivity"
+            android:name="com.dabinu.apps.fragments.GeneralActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,11 +22,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dabinu.apps.wallets.CreditActivity"
+            android:name="com.dabinu.apps.fragments.CreditActivity"
             android:label="@string/title_activity_credit_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.dabinu.apps.wallets.DebtActivity"
+            android:name="com.dabinu.apps.fragments.DebtActivity"
             android:label="@string/title_activity_debt_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.dabinu.apps.activities.NewField"></activity>
