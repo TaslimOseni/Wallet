@@ -20,7 +20,8 @@ android {
     sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/anim'] } }
 }
 
-dependencies{
+dependencies {
+    implementation 'com.android.support:support-v4:25.3.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

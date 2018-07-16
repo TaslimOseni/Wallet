@@ -7,8 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
-
-import com.dabinu.apps.fragments.GeneralActivity;
+import com.dabinu.apps.activities.DisplayActivity;
 import com.dabinu.apps.models.R;
 
 
@@ -17,8 +16,8 @@ public class TheAlarmReceiverGuy extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent){
 
-        int debt = new GeneralActivity().giveDebt(context);
-        int credit = new GeneralActivity().giveCred(context);
+        int debt = new DisplayActivity().giveDebt(context);
+        int credit = new DisplayActivity().giveCred(context);
         String debtsShouldS = "debts";
         String creditsShouldS = "credits";
 
@@ -29,7 +28,7 @@ public class TheAlarmReceiverGuy extends BroadcastReceiver{
             creditsShouldS = "credit";
         }
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.theperfectlogo).setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, GeneralActivity.class), 0)).setAutoCancel(true).setContentTitle(String.format("You have %d %s and %d %s", debt, debtsShouldS, credit, creditsShouldS)).setContentText("Touch to see details");
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.theperfectlogo).setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, DisplayActivity.class), 0)).setAutoCancel(true).setContentTitle(String.format("You have %d %s and %d %s", debt, debtsShouldS, credit, creditsShouldS)).setContentText("Touch to see details");
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, mBuilder.build());
 

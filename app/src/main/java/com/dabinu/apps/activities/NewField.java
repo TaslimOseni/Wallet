@@ -1,5 +1,6 @@
 package com.dabinu.apps.activities;
 
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
-import com.dabinu.apps.fragments.GeneralActivity;
 import com.dabinu.apps.models.R;
 import com.dabinu.apps.models.SingleWallet;
 import java.io.FileOutputStream;
@@ -57,7 +57,6 @@ public class NewField extends AppCompatActivity implements Serializable{
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-        final Intent backToMomma = new Intent(this, GeneralActivity.class);
 
 
 
@@ -114,7 +113,7 @@ public class NewField extends AppCompatActivity implements Serializable{
                                 oos.close();
                                 fos.close();
                                 Toast.makeText(getApplicationContext(), "Successful!!!", Toast.LENGTH_LONG).show();
-                                startActivity(backToMomma);
+                                startActivity(new Intent(getApplicationContext(), DisplayActivity.class));
                             }
                             catch (Exception e){
                                 Toast.makeText(getApplicationContext(), "Failed, try again.", Toast.LENGTH_LONG).show();

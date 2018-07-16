@@ -21,17 +21,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/debts"
+            android:text="Debts"
             android:textColor="#13f703"
+            android:textStyle="italic"
             android:textSize="25sp"
-            android:textStyle="italic" />
+            android:layout_gravity="center"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/zero"
+            android:text="0"
             android:id="@+id/numberOfDebts"
             android:textColor="#fff"
             android:textSize="25sp" />
@@ -51,20 +51,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/credits"
+            android:text="Credits"
+            android:textStyle="italic"
             android:textColor="#13f703"
-            android:textSize="25sp"
-            android:textStyle="italic" />
+            android:layout_gravity="center"
+            android:textSize="25sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/zero"
+            android:text="0"
             android:id="@+id/numberOfCredits"
             android:textColor="#fff"
             android:textSize="25sp" />
     </LinearLayout>
+
 
 </RelativeLayout>
